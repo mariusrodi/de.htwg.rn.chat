@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+IP	peer_to_peer_chat-old.py	/^IP = socket.gethostbyname(socket.gethostname())$/;"	v
+IP	peer_to_peer_chat.py	/^IP = socket.gethostbyname(socket.gethostname())$/;"	v
+Listener	peer_to_peer_chat.py	/^class Listener(threading.Thread):$/;"	c
+MESSAGES	peer_to_peer_chat-old.py	/^MESSAGES = []$/;"	v
+MESSAGES	peer_to_peer_chat.py	/^MESSAGES = []$/;"	v
+MESSAGES_LOCK	peer_to_peer_chat-old.py	/^MESSAGES_LOCK = threading.Lock()$/;"	v
+MESSAGES_LOCK	peer_to_peer_chat.py	/^MESSAGES_LOCK = threading.Lock()$/;"	v
+NAME	peer_to_peer_chat-old.py	/^NAME = 'Dummkopf'$/;"	v
+NAME	peer_to_peer_chat.py	/^NAME = 'Dummkopf'$/;"	v
+PORT	peer_to_peer_chat-old.py	/^PORT = 50000$/;"	v
+PORT	peer_to_peer_chat.py	/^PORT = 50000$/;"	v
+QUIT_FLAG	peer_to_peer_chat-old.py	/^QUIT_FLAG = 0$/;"	v
+QUIT_FLAG	peer_to_peer_chat.py	/^QUIT_FLAG = 0$/;"	v
+QUIT_LOCK	peer_to_peer_chat-old.py	/^QUIT_LOCK = threading.Lock()$/;"	v
+QUIT_LOCK	peer_to_peer_chat.py	/^QUIT_LOCK = threading.Lock()$/;"	v
+Receiver	peer_to_peer_chat.py	/^class Receiver(threading.Thread):$/;"	c
+Searcher	peer_to_peer_chat.py	/^class Searcher(threading.Thread):$/;"	c
+Sender	peer_to_peer_chat.py	/^class Sender(threading.Thread):$/;"	c
+__init__	peer_to_peer_chat.py	/^    def __init__(self):$/;"	m	class:Listener
+__init__	peer_to_peer_chat.py	/^    def __init__(self):$/;"	m	class:Searcher
+__init__	peer_to_peer_chat.py	/^    def __init__(self, conn, addr):$/;"	m	class:Receiver
+__init__	peer_to_peer_chat.py	/^    def __init__(self, conn, addr):$/;"	m	class:Sender
+__repr__	peer_to_peer_chat.py	/^    def __repr__(self):$/;"	m	class:Listener	file:
+__repr__	peer_to_peer_chat.py	/^    def __repr__(self):$/;"	m	class:Receiver	file:
+__repr__	peer_to_peer_chat.py	/^    def __repr__(self):$/;"	m	class:Searcher	file:
+__repr__	peer_to_peer_chat.py	/^    def __repr__(self):$/;"	m	class:Sender	file:
+main	peer_to_peer_chat-old.py	/^def main():$/;"	f
+main	peer_to_peer_chat.py	/^def main():$/;"	f
+recv_message	peer_to_peer_chat-old.py	/^def recv_message():$/;"	f
+run	peer_to_peer_chat.py	/^    def run(self):$/;"	m	class:Listener
+run	peer_to_peer_chat.py	/^    def run(self):$/;"	m	class:Receiver
+run	peer_to_peer_chat.py	/^    def run(self):$/;"	m	class:Searcher
+run	peer_to_peer_chat.py	/^    def run(self):$/;"	m	class:Sender
+send_message	peer_to_peer_chat-old.py	/^def send_message():$/;"	f
+start_communication	peer_to_peer_chat-old.py	/^def start_communication():$/;"	f
+start_server	peer_to_peer_chat-old.py	/^def start_server():$/;"	f
+take_input	peer_to_peer_chat-old.py	/^def take_input():$/;"	f
+take_input	peer_to_peer_chat.py	/^def take_input():$/;"	f

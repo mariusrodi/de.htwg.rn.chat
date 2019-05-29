@@ -14,7 +14,7 @@ MESSAGES_LOCK = threading.Lock()
 
 NAME = 'Dummkopf'
 
-CONNECTIONS = []
+CONNECTIONS = {}
 CONNECTIONS_LOCK = threading.Lock()
 
 BUDDYS = []
@@ -65,6 +65,7 @@ class Listener(threading.Thread):
         if QUIT_FLAG == 1:
             QUIT_LOCK.release()
             print('QUIT_FLAG has been set!')
+            return
         else:
             QUIT_LOCK.release()
             #print('Renewing connection!')
@@ -73,6 +74,7 @@ class Listener(threading.Thread):
 
 class Receiver(threading.Thread):
     def __init__(self, conn, addr, is_first):
+        threading.Thread.__init__(self)
         self.name = addr
         self.conn = conn
         self.is_first = is_first
@@ -85,19 +87,20 @@ class Receiver(threading.Thread):
         global QUIT_FLAG
         global CONNECTIONS
         if self.is_first == True:
-            sender = Sender(self.conn, self.addr, False)
+            sender = Sender(self.conn, self.name, False)
             sender.start()
         while True:
             QUIT_LOCK.acquire()
             if QUIT_FLAG == 1:
                 QUIT_LOCK.release()
+                self.conn.close()
                 return
-            msg = conn.recv(1024)
+            msg = self.conn.recv(1024).decode('utf-8')
             if self.counter == 0:
                 CONNECTIONS_LOCK.acquire()
-                CONNECTIONS.append([self.addr, msg])
+                CONNECTIONS[msg] = self.name
                 CONNECTIONS_LOCK.release()
-            counter += 1
+            self.counter += 1
             print(self.name + ' wrote: ' + msg)
 
 
@@ -113,24 +116,31 @@ class Sender(threading.Thread):
 
     def run(self):
         global MESSAGES
-        sock.send(NAME.encode(utf-8))
+        global CONNECTIONS
+        global NAME
+        self.conn.send(NAME.encode('utf-8'))
         if self.is_first == True:
             recv = Receiver(self.conn, self.addr, False)
             recv.start()
         while True:
             MESSAGES_LOCK.acquire()
-            while element in MESSAGES:
+            print('hello')
+            for element in MESSAGES:
                 name = element[0]
-                # TODO Find name in CONNECTIONS and get IP address of name.
-                #      Compare IP address with self.name -> true: send msg
-                #if name == self.name:
-                    #conn.send(element[1].encode('utf-8'))
-                    #MESSAGES.remove(element)
-            MESSGAES_LOCK.release()
+                print(name)
+                CONNECTIONS_LOCK.acquire()
+                if CONNECTIONS[name] == self.addr:
+                    print('You send to ' + name + ' following message: ' + msg)
+                    self.conn.send(element[1].encode('utf-8'))
+                    MESSAGES.remove(element)
+                CONNECTIONS_LOCK.release()
+            MESSAGES_LOCK.release()
             QUIT_LOCK.acquire()
             if QUIT_FLAG == 1:
                 QUIT_LOCK.release()
+                self.conn.close()
                 return
+            QUIT_LOCK.release()
 
 
 def take_input():
@@ -138,20 +148,34 @@ def take_input():
     global MESSAGES
     user_input = ''
     while True:
-        user_input = input('INPUT >> \n')
+        user_input = input('INPUT >> ')
         if user_input == 'quit':
             QUIT_LOCK.acquire()
             QUIT_FLAG = 1
             QUIT_LOCK.release()
             return
-        try:
-            name, msg = user_input.split('::')
+        elif user_input == 'list connections':
+            CONNECTIONS_LOCK.acquire()
+            connections = CONNECTIONS
+            CONNECTIONS_LOCK.release()
+            print(connections)
+        elif user_input == 'list messages':
             MESSAGES_LOCK.acquire()
-            MESSAGES.append([name, msg])
+            messages = MESSAGES
             MESSAGES_LOCK.release()
-            print('You send to ' + name + ' following message: ' + msg)
-        except:
-            print('ERR: Could not read input! Valid syntax is:\nquit               Quit service\nreceiver::message  Send Message to Receiver')
+            print(messages)
+        else:
+            try:
+                name, msg = user_input.split('::')
+                MESSAGES_LOCK.acquire()
+                MESSAGES.append([name, msg])
+                MESSAGES_LOCK.release()
+            except:
+                print('ERR: Could not read input! Valid syntax is:\n \
+quit               Quit service\n \
+receiver::message  Send Message to Receiver\n \
+list connections   List connections\n \
+list messages      List messages')
 
 def main():
     listener = Listener()
